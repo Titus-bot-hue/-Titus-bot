@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
   res.send(`
     <html>
       <body style="text-align:center;padding:40px;">
-        <h1>🟢 DansBot QR Code</h1>
+        <h1>🟢 Titus-bot QR Code</h1>
         <p>${qrExists ? 'Scan this QR Code to activate your WhatsApp bot' : 'QR code not yet generated. Please wait...'}</p>
         ${qrExists ? '<img src="/qr.png" width="300" style="border:1px solid #ccc;">' : '<p>⏳ Waiting for QR code...</p>'}
       </body>
