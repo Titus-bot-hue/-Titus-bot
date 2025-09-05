@@ -46,7 +46,7 @@ export async function startSession(sessionId, phoneNumber = null) {
     version,
     auth: state,
     printQRInTerminal: false,
-    browser: ['DansBot', 'Chrome', '122']
+    browser: ['Titus-bot, 'Chrome', '122']
   });
 
   sock.ev.on('creds.update', saveCreds);
@@ -109,7 +109,7 @@ async function handleIncomingMessage(sock, msg) {
   // Commands
   const commands = {
     '.ping': '🏓 Pong!',
-    '.alive': '✅ DansBot is alive!',
+    '.alive': '✅ Titus-bot is alive!',
     '.status': `📊 Status:\n${Object.entries(features).map(([k, v]) => `• ${k}: ${v ? '✅' : '❌'}`).join('\n')}`,
     '.menu': `📜 Menu:\n• .ping\n• .alive\n• .status\n• .menu\n• .shutdown\n• .broadcast <msg>\n• .block <number>\n• .unblock <number>\n• .toggle <feature>`
   };
