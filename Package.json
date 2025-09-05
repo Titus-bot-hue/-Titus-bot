@@ -1,14 +1,14 @@
 {
-  "name": "DansDans",
+  "name": "Titus-Bot",
   "version": "10.8.1",
-  "description": "DansDans latest multi-device WhatsApp bot",
+  "description": "Titus-bot latest multi-device WhatsApp bot",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js"
   },
-  "keywords": ["DansDans", "whatsapp-bot", "whatsapp md bot"],
-  "author": "DansDans",
+  "keywords": ["Titus-bot", "whatsapp-bot", "whatsapp md bot"],
+  "author": "TitusMutuku",
   "license": "ISC",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
