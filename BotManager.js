@@ -36,7 +36,7 @@ let features = existsSync(featuresPath)
     };
 
 // Main function
-export async function startSession(sessionId, phoneNumber = null) {
+export async function startSession(sessionId) {
   const { state, saveCreds } = await useMultiFileAuthState(join(authFolder, sessionId));
   const { version } = await fetchLatestBaileysVersion();
 
@@ -46,7 +46,7 @@ export async function startSession(sessionId, phoneNumber = null) {
     version,
     auth: state,
     printQRInTerminal: false,
-    browser: ['Titus-bot, 'Chrome', '122']
+    browser: ['Titus-bot', 'Chrome', '122']
   });
 
   sock.ev.on('creds.update', saveCreds);
@@ -54,25 +54,13 @@ export async function startSession(sessionId, phoneNumber = null) {
   sock.ev.on('connection.update', async (update) => {
     const { connection, qr, lastDisconnect } = update;
 
-    // QR Method (only if no phone number provided)
-    if (qr && !phoneNumber) {
+    // QR Code Method
+    if (qr) {
       const qrPath = join(publicFolder, 'qr.png');
       QRCode.toFile(qrPath, qr, (err) => {
         if (err) console.error('❌ Failed to save QR code:', err);
         else console.log(`✅ QR code saved at ${qrPath}`);
       });
-    }
-
-    // Pairing Code Method (if phone number provided)
-    if (phoneNumber && connection === 'connecting') {
-      try {
-        const code = await sock.requestPairingCode(phoneNumber);
-        const codePath = join(publicFolder, 'pairing.txt');
-        writeFileSync(codePath, code);
-        console.log(`🔗 Pairing code for ${phoneNumber}: ${code}`);
-      } catch (err) {
-        console.error('❌ Failed to generate pairing code:', err);
-      }
     }
 
     if (connection === 'open') {
@@ -88,7 +76,7 @@ export async function startSession(sessionId, phoneNumber = null) {
 
       if (statusCode !== DisconnectReason.loggedOut) {
         console.log('🔁 Reconnecting...');
-        startSession(sessionId, phoneNumber);
+        startSession(sessionId);
       }
     }
   });
@@ -96,43 +84,47 @@ export async function startSession(sessionId, phoneNumber = null) {
 
 // Handle incoming messages
 async function handleIncomingMessage(sock, msg) {
-  const sender = msg.key.remoteJid;
-  const text =
-    msg.message?.conversation ||
-    msg.message?.extendedTextMessage?.text ||
-    msg.message?.imageMessage?.caption ||
-    '';
-  const command = text.trim().toLowerCase();
+  try {
+    const sender = msg.key.remoteJid;
+    const text =
+      msg.message?.conversation ||
+      msg.message?.extendedTextMessage?.text ||
+      msg.message?.imageMessage?.caption ||
+      '';
+    const command = text.trim().toLowerCase();
 
-  if (blocklist.includes(sender)) return;
+    if (blocklist.includes(sender)) return;
 
-  // Commands
-  const commands = {
-    '.ping': '🏓 Pong!',
-    '.alive': '✅ Titus-bot is alive!',
-    '.status': `📊 Status:\n${Object.entries(features).map(([k, v]) => `• ${k}: ${v ? '✅' : '❌'}`).join('\n')}`,
-    '.menu': `📜 Menu:\n• .ping\n• .alive\n• .status\n• .menu\n• .shutdown\n• .broadcast <msg>\n• .block <number>\n• .unblock <number>\n• .toggle <feature>`
-  };
+    // Commands
+    const commands = {
+      '.ping': '🏓 Pong!',
+      '.alive': '✅ Titus-bot is alive!',
+      '.status': `📊 Status:\n${Object.entries(features).map(([k, v]) => `• ${k}: ${v ? '✅' : '❌'}`).join('\n')}`,
+      '.menu': `📜 Menu:\n• .ping\n• .alive\n• .status\n• .menu\n• .shutdown\n• .broadcast <msg>\n• .block <number>\n• .unblock <number>\n• .toggle <feature>`
+    };
 
-  if (commands[command]) {
-    await sock.sendMessage(sender, { text: commands[command] }, { quoted: msg });
-    return;
-  }
+    if (commands[command]) {
+      await sock.sendMessage(sender, { text: commands[command] }, { quoted: msg });
+      return;
+    }
 
-  if (command.startsWith('.') && !commands[command]) {
-    await sock.sendMessage(sender, {
-      text: `❓ Unknown command: ${command}\nType .menu to see available commands.`
-    }, { quoted: msg });
-  }
+    if (command.startsWith('.') && !commands[command]) {
+      await sock.sendMessage(sender, {
+        text: `❓ Unknown command: ${command}\nType .menu to see available commands.`
+      }, { quoted: msg });
+    }
 
-  // Auto-read messages
-  await sock.readMessages([msg.key]);
+    // Auto-read messages
+    await sock.readMessages([msg.key]);
 
-  // Fake typing effect
-  if (features.faketyping) {
-    await sock.sendPresenceUpdate('composing', sender);
-    await new Promise(res => setTimeout(res, 2000));
-    await sock.sendPresenceUpdate('paused', sender);
+    // Fake typing effect
+    if (features.faketyping) {
+      await sock.sendPresenceUpdate('composing', sender);
+      await new Promise(res => setTimeout(res, 2000));
+      await sock.sendPresenceUpdate('paused', sender);
+    }
+  } catch (err) {
+    console.error('❌ Error handling message:', err);
   }
 }
 
@@ -149,4 +141,4 @@ function setupListeners(sock) {
     sock.sendPresenceUpdate('available');
     console.log('🟢 Bot is online');
   }, 30000);
-}
+        }
