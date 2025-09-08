@@ -30,6 +30,9 @@ app.get('/', (req, res) => {
 
   res.send(`
     <html>
+      <head>
+        <meta http-equiv="refresh" content="10">
+      </head>
       <body style="text-align:center; padding:40px; font-family: Arial, sans-serif;">
         <h1>🟢 Titus-bot WhatsApp Connection</h1>
         <p>Use any method below to link your WhatsApp:</p>
@@ -59,13 +62,21 @@ app.get('/', (req, res) => {
 });
 
 // Handle pairing code generation
-app.post('/generate', (req, res) => {
+app.post('/generate', async (req, res) => {
   const phoneNumber = req.body.phone.trim();
-  if (!phoneNumber) {
-    return res.send('<p>❌ Please provide a phone number.</p><a href="/">Go back</a>');
+
+  // Validate phone number (digits only, 10–15 digits)
+  if (!/^\d{10,15}$/.test(phoneNumber)) {
+    return res.send('<p>❌ Invalid phone number format.</p><a href="/">Go back</a>');
   }
-  startSession('main', phoneNumber);
-  res.redirect('/');
+
+  try {
+    await startSession('main', phoneNumber);
+    res.redirect('/');
+  } catch (err) {
+    console.error('Error starting session:', err);
+    res.send('<p>⚠️ Failed to generate pairing code. Try again.</p><a href="/">Go back</a>');
+  }
 });
 
 // Health check
@@ -73,7 +84,12 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.listen(PORT, () => {
+// Start server and bot
+app.listen(PORT, async () => {
   console.log(`🌐 Server running at http://localhost:${PORT}`);
-  startSession('main'); // Start bot without pairing code initially
+  try {
+    await startSession('main'); // Start bot without pairing code initially
+  } catch (err) {
+    console.error('Error starting initial session:', err);
+  }
 });
