@@ -4,8 +4,6 @@ Welcome to Titus-bot-hue — a cutting-edge WhatsApp bot framework designed for 
 
 🔄 Toggleable functionalities for dynamic user control
 
-💳 M-Pesa & Binance integration for subscription access
-
 ☁️ Cloud deployment-ready (Render, Railway, etc.)
 
 🎯 Built-in user engagement strategies
