@@ -5,12 +5,17 @@ const usersFile = './users.json';
 // Load users from file
 function loadUsers() {
   if (!existsSync(usersFile)) return [];
-  return JSON.parse(readFileSync(usersFile));
+  try {
+    return JSON.parse(readFileSync(usersFile, 'utf-8'));
+  } catch (err) {
+    console.error('❌ Failed to read users.json:', err);
+    return [];
+  }
 }
 
 // Save users to file
 function saveUsers(users) {
-  writeFileSync(usersFile, JSON.stringify(users, null, 2));
+  writeFileSync(usersFile, JSON.stringify(users, null, 2), 'utf-8');
 }
 
 // Generate a random 5-digit link code
@@ -18,8 +23,8 @@ export function generateLinkCode(jid) {
   const users = loadUsers();
   const code = Math.floor(10000 + Math.random() * 90000).toString();
 
-  // Add or update user
-  const existing = users.find(u => u.jid === jid);
+  let existing = users.find(u => u.jid === jid);
+
   if (existing) {
     existing.linkCode = code;
   } else {
@@ -37,8 +42,8 @@ export function verifyLinkCode(jid, code) {
 
   if (!existing) return false;
 
-  existing.jid = jid; // Update JID if linking from another device
-  existing.linkCode = null; // Remove code after use
+  existing.jid = jid;        // ⚠️ Replaces old JID
+  existing.linkCode = null;  // Invalidate code
   saveUsers(users);
   return true;
 }
@@ -48,4 +53,3 @@ export function isUserLinked(jid) {
   const users = loadUsers();
   return users.some(u => u.jid === jid);
 }
-
