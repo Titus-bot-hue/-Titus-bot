@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"/><title>Titus-bot</title></head>
+<body>
+<h1>🤖 Titus-bot</h1>
+<p>Click below to open the bot in WhatsApp:</p>
+<a href="https://wa.me/254787100498" target="_blank">💬 Chat with Titus-bot</a>
+<h2>Owner QR Login</h2>
+<img id="qr" src="/qr" alt="QR — wait until generated" style="max-width:300px"/>
+<p>📱 Scan the QR with your WhatsApp (owner) to link the bot session.</p>
+</body>
+</html>
