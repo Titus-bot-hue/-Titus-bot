@@ -1,63 +1,62 @@
-Welcome to Titus-bot-hue — a cutting-edge WhatsApp bot framework designed for scalability, monetization, and seamless user engagement. Whether you're building subscription-based services or integrating payment systems like M-Pesa and Binance, this repo is your launchpad to automation excellence.
+<!-- Glowing Header -->
+<p align="center">
+  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
+</p>
 
-🚀 Features
+<h1 align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=25&duration=3000&color=00FF00&background=000000&center=true&vCenter=true&width=600&lines=⚡+TITUS+BOT+QUANTUM+VERSION;🔥+The+Smartest+WhatsApp+Bot;💻+Crafted+by+Titus+Mutuku;🚀+Next-Gen+Automation+Technology;🌈+Fast+⚡+Secure+🔒+Reliable+✅" alt="Typing Animation">
+</h1>
 
-🔄 Toggleable functionalities for dynamic user control
+<!-- Profile Image -->
+<p align="center">
+  <img src="https://files.catbox.moe/c07f3s.jpeg" width="210" height="210" style="border-radius:50%; box-shadow:0 0 25px #00ffea;">
+</p>
 
-☁️ Cloud deployment-ready (Render, Railway, etc.)
+<!-- Action Buttons -->
+<p align="center">
+  <a href="https://titus-bot-3.onrender.com" target="_blank" rel="noopener noreferrer">
+    <img title="GET SESSION" src="https://img.shields.io/badge/🔑_GET_TITUS_SESSION-000000?style=for-the-badge&logo=whatsapp&logoColor=white&color=skyblue" width="260" height="50"/>
+  </a>
+  <a href="https://render.com" target="_blank" rel="noopener noreferrer">
+    <img title="DEPLOY TITUS BOT" src="https://img.shields.io/badge/🚀_DEPLOY_ON_RENDER-000000?style=for-the-badge&logo=render&logoColor=white&color=61DAFB" width="260" height="50"/>
+  </a>
+</p>
 
-🎯 Built-in user engagement strategies
+<p align="center">
+  <a href="https://railway.app" target="_blank" rel="noopener noreferrer">
+    <img title="DEPLOY ON RAILWAY" src="https://img.shields.io/badge/🚀_DEPLOY_ON_RAILWAY-000000?style=for-the-badge&logo=railway&logoColor=white&color=purple" width="260" height="50"/>
+  </a>
+</p>
 
-🧩 Modular design for easy customization
+<!-- WhatsApp Contact -->
+<p align="center">
+  <a href="https://wa.me/254787100498" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Chat%20with%20Titus-25d366?style=for-the-badge&logo=whatsapp&logoColor=white" width="340" height="50" alt="Chat with Titus"/>
+  </a>
+</p>
 
-
-🛠 Frameworks Used
-
-Baileys & Venom — WhatsApp bot development
-
-Node.js — backend logic
-
-Render — cloud deployment
-
-
-💡 Getting Started
-
-1. Clone the repo
-
-git clone https://github.com/Titus-bot-hue /titus-bot-hue.git
-cd titus-bot-hue
-
-
-2. Install dependencies
-
-npm install
-
-
-3. Configure your .env file with API keys and credentials
-
-
-4. Run the bot
-
-npm start
-
-
-
-🤝 Contributing
-
-We welcome contributions! Feel free to fork the repo, submit pull requests, or suggest new features.
-
-📬 Contact
-
-For support, collaboration, or business inquiries:
-📱 WhatsApp: Chat with us 0787100498
-
-🧭 License
-
-MIT License — feel free to use, modify, and share.
-
+<!-- Animated Status -->
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Bwmxmd254/Bwmxmd254/main/assets/statusbar.gif" height="25">
+  <br>
+  <span style="font-size:1.2em; color:#00ffea;">Status: <b>Online & Quantum-Ready 🚀</b></span>
+</p>
 
 ---
 
-> ✨ Titus-bot-hue is more than a bot — it's your automation partner for the future.
+## 📂 Features
+- ✅ Multi-device WhatsApp support  
+- ✅ Smart AI-powered replies  
+- ✅ Auto-download media, view once, deleted messages  
+- ✅ Fast ⚡ Secure 🔒 Reliable ✅  
+- ✅ Deployment-ready for **Render, Railway, Heroku**  
 
+---
 
+<details>
+<summary>⚙️ <b>Setup Instructions</b></summary>
+
+### 1. Clone Repo
+```bash
+git clone https://github.com/your-username/Titus-Bot.git
+cd Titus-Bot
