@@ -1,21 +1,23 @@
 {
   "name": "titus-bot",
   "version": "1.0.0",
-  "description": "Titus-Bot Bot - Smart WhatsApp Bot by Titus Mutuku",
+  "description": "Smart WhatsApp Bot by Titus Mutuku",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.js"
   },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "titus",
+    "nodejs"
+  ],
   "author": "Titus Mutuku",
   "license": "MIT",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.6",
-    "express": "^4.18.2",
-    "qrcode": "^1.5.1",
-    "dotenv": "^16.3.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.3"
+    "@whiskeysockets/baileys": "^6.7.5",
+    "qrcode-terminal": "^0.12.0",
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5"
   }
 }
