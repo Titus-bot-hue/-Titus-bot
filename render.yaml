@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: titus-bot
-    env: docker
-    plan: free
-    autoDeploy: true
