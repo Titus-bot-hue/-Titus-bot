@@ -1,42 +1,39 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { existsSync, mkdirSync } from 'fs';
-import { startSession } from '../botManager.js';
+import makeWASocket, { useMultiFileAuthState, DisconnectReason } from "@whiskeysockets/baileys";
+import { Boom } from "@hapi/boom";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+export async function startBot() {
+  const { state, saveCreds } = await useMultiFileAuthState("session");
 
-const app = express();
-const publicFolder = path.join(process.cwd(), 'public');
-if (!existsSync(publicFolder)) mkdirSync(publicFolder);
+  const sock = makeWASocket({
+    auth: state,
+    printQRInTerminal: true,
+  });
 
-// Serve static files like qr.png
-app.use(express.static(publicFolder));
+  sock.ev.on("connection.update", (update) => {
+    const { connection, lastDisconnect } = update;
+    if (connection === "close") {
+      const shouldReconnect =
+        (lastDisconnect.error = Boom)?.output?.statusCode !== DisconnectReason.loggedOut;
+      console.log("Connection closed. Reconnecting...", shouldReconnect);
+      if (shouldReconnect) startBot();
+    } else if (connection === "open") {
+      console.log("✅ Titus-Bot Bot is now online!");
+    }
+  });
 
-// Web page to show QR
-app.get('/', (req, res) => {
-  const qrPath = path.join(publicFolder, 'qr.png');
-  const qrExists = existsSync(qrPath);
+  sock.ev.on("messages.upsert", async (m) => {
+    const msg = m.messages[0];
+    if (!msg.message) return;
 
-  res.send(`
-    <html>
-      <body style="text-align:center;padding:40px;">
-        <h1>🟢 Titus-bot QR Code</h1>
-        <p>
-          ${qrExists ? 'Scan this QR Code to activate your WhatsApp bot' : 'QR code not yet generated. Please wait...'}
-        </p>
-        ${qrExists ? '<img src="/qr.png" width="300" style="border:1px solid #ccc;">' : '<p>⏳ Waiting for QR code...</p>'}
-      </body>
-    </html>
-  `);
-});
+    const from = msg.key.remoteJid;
+    const text = msg.message.conversation;
 
-// Start WhatsApp session
-startSession('main');
+    if (text?.toLowerCase() === "hi") {
+      await sock.sendMessage(from, {
+        text: "Hello 👋, I am Titus-Bot Bot, built by Titus Mutuku!",
+      });
+    }
+  });
 
-// Start Express server
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`🌐 QR server running on http://localhost:${PORT}`);
-});
+  sock.ev.on("creds.update", saveCreds);
+}
